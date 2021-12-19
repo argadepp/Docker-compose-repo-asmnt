@@ -1,0 +1,47 @@
+version: "3.3"
+services:
+  
+  mongo:
+    image: 'mongo'
+    volumes: 
+      - data:/data/db
+    container_name: mongo
+         
+    environment: 
+      MONGO_INITDB_ROOT_USERNAME: backend_demo  
+    networks:
+      - my-bridge-network
+    ports:
+      - "27017:27017"
+
+  mysql:
+    image: 'mysql'
+    volumes:
+      - data:/data/mysql
+    networks:
+      - my-bridge-network
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=password 
+      - MYSQL_DATABASE=backend_demo
+    ports:
+      - "3306:3306"
+
+  nodes:
+    build: .
+    image: 'mynodejs'
+    volumes: 
+      - data:/mydata 
+    container_name: nodejsc
+    networks:
+      - my-bridge-network
+    ports:
+      - "51005:51005"     
+
+networks:
+        my-bridge-network:
+    
+volumes: 
+  data:
+  logs:
+      
